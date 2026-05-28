@@ -5,7 +5,7 @@
     object-fit:cover;
     border-radius:6px;
     border:1px solid #ddd;
-    margin-bottom:8px; 
+    margin-bottom:8px;
   }
 </style>
 
@@ -192,44 +192,6 @@
     src="<%= img %>"
     class="thumb-img w-100">
 
-  <!-- IMAGE FIELD + INDEX -->
-  <!-- <input
-    type="hidden"
-    name="replaceIndexes"
-    value="<%= sec.field %>-<%= index %>"> -->
-
-  <!-- <label
-    class="btn btn-primary btn-sm position-absolute"
-    style="top:10px; right:10px;">
-
-    Edit
-
-    <input
-      type="file"
-      name="replaceImages"
-      class="d-none">
-  </label> -->
-
-
-<!-- <label
-  class="btn btn-primary btn-sm position-absolute"
-  style="top:10px; right:10px;">
-
-  Edit
-
-  <input
-    type="hidden"
-    name="replaceIndexes"
-    value="<%= sec.field %>-<%= index %>">
-
-  <input
-    type="file"
-    name="replaceImages"
-    class="d-none">
-
-</label> -->
-
-
  <label
   class="btn btn-primary btn-sm position-absolute"
   style="top:10px; right:10px;">
@@ -245,7 +207,6 @@
 
 </label>
 
-
 <button
     type="submit"
     name="deleteImage"
@@ -255,7 +216,7 @@
 
     Delete
 
-  </button
+  </button>
 
 
 </div>
@@ -453,16 +414,6 @@
 </div>
 
 <script>
-
-// function addFeature(wrapperId, fieldName){
-//   const div=document.createElement('div');
-//   div.className='input-group mb-2 feature-row';
-//   div.innerHTML=`
-//     <input type="text" name="${fieldName}" class="form-control">
-//     <button type="button" class="btn btn-danger remove-btn">Remove</button>
-//   `;
-//   document.getElementById(wrapperId).appendChild(div);
-// }
 
  function addImageField(wrapperId, fieldName){
 
