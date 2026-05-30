@@ -85,6 +85,21 @@
     </select>
   </div>
 
+  <div class="col-md-6 mb-3">
+    <label>Bedrooms</label>
+    <input type="text" name="bedrooms" value="<%= project.bedrooms %>" class="form-control" placeholder="e.g. 2, 3 BHK">
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Area</label>
+    <input type="text" name="area" value="<%= project.area %>" class="form-control" placeholder="e.g. 1000 sq ft,Acres">
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Rera Number</label>
+    <input type="text" name="reraNumber" value="<%= project.reraNumber %>" class="form-control" placeholder="e.g. Rera-12345">
+  </div>
+
 </div>
 
 <hr>
@@ -136,7 +151,6 @@
 <div class="mb-3">
 
   <% if(project.projectVideo){ %>
-
     <video width="300" controls class="mb-2">
       <source src="<%= project.projectVideo %>" type="video/mp4">
     </video>
@@ -169,11 +183,11 @@
 <div class="row">
 
   <% const multiSections = [
-    {label:'Master Plan', field:'masterPlanImages'},
-    {label:'Floor Plan', field:'floorPlanImages'},
-    {label:'Exclusive Club', field:'exclusiveClubImages'},
-    {label:'Facilities Nearby', field:'facilitiesNearbyImages'},
-    {label:'Construction Update', field:'constructionUpdateImages'}
+    {label:'Plan', field:'masterPlanImages'},
+    {label:'AMENITIES', field:'floorPlanImages'},
+    // {label:'Facilities Nearby', field:'exclusiveClubImages'},
+    {label:'GALLARY', field:'facilitiesNearbyImages'},
+    // {label:'Construction Update', field:'constructionUpdateImages'}
   ]; %>
 
   <% multiSections.forEach(sec => { %>
@@ -226,11 +240,11 @@
 
       <% } %>
 
-      <input
+      <!-- <input
         type="file"
         name="<%= sec.field %>"
         class="form-control"
-        multiple>
+        multiple> -->
 
     </div>
 
@@ -241,6 +255,54 @@
 <hr>
 <!-- plan -->
 
+<div class="mb-3">
+  <label>Plan</label>
+  <div id="masterPlanWrapper"></div>
+  <button type="button" class="btn btn-sm btn-secondary"
+    onclick="addImageField('masterPlanWrapper','masterPlanImages')">
+    + Add Image
+  </button>
+</div>
+
+<!-- FLOOR PLAN -->
+<div class="mb-3">
+  <label>AMENITIES</label>
+  <div id="floorPlanWrapper"></div>
+  <button type="button" class="btn btn-sm btn-secondary"
+    onclick="addImageField('floorPlanWrapper','floorPlanImages')">
+    + Add Image
+  </button>
+</div>
+
+<!-- EXCLUSIVE CLUB -->
+<!-- <div class="mb-3">
+  <label>GALLARY</label>
+  <div id="exclusiveClubWrapper"></div>
+  <button type="button" class="btn btn-sm btn-secondary"
+    onclick="addImageField('exclusiveClubWrapper','exclusiveClubImages')">
+    + Add Image
+  </button>
+</div> -->
+
+<!-- FACILITIES -->
+<div class="mb-3">
+  <label>GALLARY</label>
+  <div id="facilitiesWrapper"></div>
+  <button type="button" class="btn btn-sm btn-secondary"
+    onclick="addImageField('facilitiesWrapper','facilitiesNearbyImages')">
+    + Add Image
+  </button>
+</div>
+
+<!-- CONSTRUCTION -->
+<!-- <div class="mb-3">
+  <label>Construction Update</label>
+  <div id="constructionWrapper"></div>
+  <button type="button" class="btn btn-sm btn-secondary"
+    onclick="addImageField('constructionWrapper','constructionUpdateImages')">
+    + Add Image
+  </button> 
+</div> -->
  
 <hr>
 
