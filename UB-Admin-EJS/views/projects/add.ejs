@@ -205,24 +205,42 @@
 
 <div id="areaWrapper"></div>
 <button type="button" class="btn btn-sm btn-secondary mb-3"
-  onclick="addFeature('areaWrapper','areaAndLot')">
-  + Add Area Feature
+onclick="addFeature('areaWrapper','areaAndLot')">
++ Add & Plot
 </button>
 
 <div id="interiorWrapper"></div>
 <button type="button" class="btn btn-sm btn-secondary mb-3"
-  onclick="addFeature('interiorWrapper','interior')">
-  + Add Interior Feature
+onclick="addFeature('interiorWrapper','interior')">
++ Add Interior
 </button>
 
 <div id="exteriorWrapper"></div>
 <button type="button" class="btn btn-sm btn-secondary mb-3"
-  onclick="addFeature('exteriorWrapper','exterior')">
-  + Add Exterior Feature
+onclick="addFeature('exteriorWrapper','exterior')">
++ Add Exterior
 </button>
-
 <hr>
 
+<% function renderFeatures(title, field, wrapperId){ %>
+
+<h5 class="text-primary mb-3"><%= title %></h5>
+
+<div id="<%= wrapperId %>">
+
+  <% (project[field] || []).forEach(item => { %>
+    <div class="input-group mb-2 feature-row">
+      <input type="text"
+        name="<%= field %>"
+        value="<%= item.title %>"
+        class="form-control">
+      <button type="button" class="btn btn-danger remove-btn">Remove</button>
+    </div>
+  <% }) %>
+
+</div>
+<% } %>
+<h5 class="text-primary mb-3">Features</h5>
 <!-- ================= HIGHLIGHTS ================= -->
 
 <h5 class="text-primary mb-3">Highlights</h5>
@@ -360,5 +378,33 @@ document.addEventListener("click", function(e){
     e.target.closest('.input-group, .row, .border')?.remove();
   }
 });
+
+</script>
+
+<script>
+
+function addFeature(wrapperId, fieldName) {
+
+  const div = document.createElement('div');
+
+  div.className = 'input-group mb-2 feature-row';
+
+  div.innerHTML = `
+    <input
+      type="text"
+      name="${fieldName}"
+      class="form-control">
+
+    <button
+      type="button"
+      class="btn btn-danger remove-btn">
+      Remove
+    </button>
+  `;
+
+  document
+    .getElementById(wrapperId)
+    .appendChild(div);
+}
 
 </script>
