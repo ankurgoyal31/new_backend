@@ -154,10 +154,13 @@ exports.create = async (req, res) => {
       location: req.body.location,
       priceRange: req.body.priceRange,
       status: req.body.status,
+      bedrooms: req.body.bedrooms,
+      area: req.body.area,
+      reraNumber: req.body.reraNumber,
       projectVideo: getFile('projectVideo'),
       heroImage1: getFile('heroImage1'),
       heroImage2: getFile('heroImage2'),
-      heroImage3: getFile('heroImage3'),
+      heroImage3: getFile('heroImage3'), 
       logoImage: getFile('logoImage'),
       brochureFile: getFile('brochureFile'),
 
@@ -193,7 +196,7 @@ exports.create = async (req, res) => {
 
 /* ================= UPDATE ================= */
 exports.update = async (req, res) => {
-  try {
+  try {  
 
     const project = await Project.findById(req.params.id);
     if (!project) return res.redirect('/projects');
@@ -208,7 +211,10 @@ exports.update = async (req, res) => {
       category: req.body.category,
       location: req.body.location,
       priceRange: req.body.priceRange,
-      status: req.body.status
+      status: req.body.status,
+      bedrooms: req.body.bedrooms,
+      area: req.body.area,
+      reraNumber: req.body.reraNumber
     };
 
     /* ================= FILE UPDATE ================= */
@@ -287,7 +293,42 @@ if (
     }
   });
 }
+
+ //delete
+
+ /* ================= SPECIFIC IMAGE REPLACE ================= */
+
+if (
+  req.files.replaceImages &&
+  req.files.replaceImages.length > 0
+) {
+
+  const indexes = Array.isArray(req.body.replaceIndexes)
+    ? req.body.replaceIndexes
+    : [req.body.replaceIndexes];
+
+  req.files.replaceImages.forEach((file, i) => {
+
+    const value = indexes[i];
+
+    if (!value) return;
+
+    const [field, index] = value.split('-');
+
+    if (
+      updateData[field] &&
+      updateData[field][index]
+    ) {
+
+      updateData[field][index] = file.location;
+    }
+  });
+}
+
+
 /* ================= DELETE SINGLE IMAGE ================= */
+
+
 if (req.body.deleteImage) {
 
   const [field, index] =
@@ -305,6 +346,7 @@ if (req.body.deleteImage) {
     updateData[field].splice(index, 1);
   }
 }
+
 
     /* ================= FEATURES ================= */
     const makeArray = (field) => {
