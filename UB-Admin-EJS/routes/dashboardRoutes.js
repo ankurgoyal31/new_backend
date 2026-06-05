@@ -4,4 +4,4 @@ const dashboardController = require('../controllers/dashboardController');
 const { isAuthenticated } = require('../middleware/authMiddleware');
 router.get('/dashboard', isAuthenticated, dashboardController.dashboard);
 
-module.exports = router;
+module.exports = router;       

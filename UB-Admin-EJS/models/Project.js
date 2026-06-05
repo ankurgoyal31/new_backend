@@ -49,7 +49,6 @@ const projectSchema = new mongoose.Schema({
 
   location: {
     type: String,
-    enum: locations,
     required: true
   },
 
@@ -63,13 +62,22 @@ const projectSchema = new mongoose.Schema({
     enum: statusOptions,
     default: "Upcoming"
   },
+  bedrooms: {
+    type: String
+  },
+  area: {
+    type: String
+  },
+  reraNumber: {
+    type: String
+  },
 
-projectVideo: String,
+ projectVideo: String,
   /* ================= HERO IMAGES ================= */
   heroImage1: {
     type: String,
     required: true
-  },
+  }, 
 locationMapLink: {
   type: String
 },

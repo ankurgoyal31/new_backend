@@ -34,15 +34,29 @@
     </select>
   </div>
 
-  <div class="col-md-6 mb-3">
-    <label>Location *</label>
+  <!-- <div class="col-md-6 mb-3"> -->
+    <!-- <label>Location *</label>
     <select name="location" class="form-control" required>
       <option value="">Select Location</option>
       <% config.locations.forEach(function(loc){ %>
         <option value="<%= loc %>"><%= loc %></option>
       <% }) %>
-    </select>
-  </div>
+    </select> -->
+
+  <div class="col-md-6 mb-3">
+  <label>Location *</label>
+  <input
+    type="text" 
+    name="location" 
+    class="form-control" 
+    placeholder="Enter Location" 
+    required
+  >
+</div>
+
+
+
+  <!-- </div> -->
 
   <div class="col-md-6 mb-3">
     <label>Price Range *</label>
@@ -61,6 +75,21 @@
         <option value="<%= status %>"><%= status %></option>
       <% }) %>
     </select>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Bedrooms</label>
+    <input type="text" name="bedrooms" class="form-control" placeholder="e.g. 2, 3 BHK">
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label>Area</label>
+    <input type="text" name="area" class="form-control" placeholder="e.g. 1000 sq ft,Acres">
+  </div>
+
+   <div class="col-md-6 mb-3">
+    <label>Rera Number</label>
+    <input type="text" name="reraNumber" class="form-control" placeholder="e.g. Rera-12345">
   </div>
 
 </div>
@@ -116,14 +145,13 @@
 </div>
 
 <hr>
-
 <!-- ================= MULTI IMAGE SECTIONS ================= -->
 
 <h5 class="text-primary mb-3">Project Sections</h5>
 
 <!-- MASTER PLAN -->
 <div class="mb-3">
-  <label>Master Plan</label>
+  <label>Plan</label>
   <div id="masterPlanWrapper"></div>
   <button type="button" class="btn btn-sm btn-secondary"
     onclick="addImageField('masterPlanWrapper','masterPlanImages')">
@@ -133,7 +161,7 @@
 
 <!-- FLOOR PLAN -->
 <div class="mb-3">
-  <label>Floor Plan</label>
+  <label>AMENITIES</label>
   <div id="floorPlanWrapper"></div>
   <button type="button" class="btn btn-sm btn-secondary"
     onclick="addImageField('floorPlanWrapper','floorPlanImages')">
@@ -142,18 +170,18 @@
 </div>
 
 <!-- EXCLUSIVE CLUB -->
-<div class="mb-3">
-  <label>Exclusive Club</label>
+<!-- <div class="mb-3">
+  <label>GALLARY</label>
   <div id="exclusiveClubWrapper"></div>
   <button type="button" class="btn btn-sm btn-secondary"
     onclick="addImageField('exclusiveClubWrapper','exclusiveClubImages')">
     + Add Image
   </button>
-</div>
+</div> -->
 
 <!-- FACILITIES -->
 <div class="mb-3">
-  <label>Facilities Nearby</label>
+  <label>GALLARY</label>
   <div id="facilitiesWrapper"></div>
   <button type="button" class="btn btn-sm btn-secondary"
     onclick="addImageField('facilitiesWrapper','facilitiesNearbyImages')">
@@ -162,14 +190,14 @@
 </div>
 
 <!-- CONSTRUCTION -->
-<div class="mb-3">
+<!-- <div class="mb-3">
   <label>Construction Update</label>
   <div id="constructionWrapper"></div>
   <button type="button" class="btn btn-sm btn-secondary"
     onclick="addImageField('constructionWrapper','constructionUpdateImages')">
     + Add Image
-  </button>
-</div>
+  </button> 
+</div> -->
 
 <hr>
 
@@ -191,24 +219,42 @@
 
 <div id="areaWrapper"></div>
 <button type="button" class="btn btn-sm btn-secondary mb-3"
-  onclick="addFeature('areaWrapper','areaAndLot')">
-  + Add Area Feature
+onclick="addFeature('areaWrapper','areaAndLot')">
++ Add & Plot
 </button>
 
 <div id="interiorWrapper"></div>
 <button type="button" class="btn btn-sm btn-secondary mb-3"
-  onclick="addFeature('interiorWrapper','interior')">
-  + Add Interior Feature
+onclick="addFeature('interiorWrapper','interior')">
++ Add Interior
 </button>
 
 <div id="exteriorWrapper"></div>
 <button type="button" class="btn btn-sm btn-secondary mb-3"
-  onclick="addFeature('exteriorWrapper','exterior')">
-  + Add Exterior Feature
+onclick="addFeature('exteriorWrapper','exterior')">
++ Add Exterior
 </button>
-
 <hr>
 
+<% function renderFeatures(title, field, wrapperId){ %>
+
+<h5 class="text-primary mb-3"><%= title %></h5>
+
+<div id="<%= wrapperId %>">
+
+  <% (project[field] || []).forEach(item => { %>
+    <div class="input-group mb-2 feature-row">
+      <input type="text"
+        name="<%= field %>"
+        value="<%= item.title %>"
+        class="form-control">
+      <button type="button" class="btn btn-danger remove-btn">Remove</button>
+    </div>
+  <% }) %>
+
+</div>
+<% } %>
+<h5 class="text-primary mb-3">Features</h5>
 <!-- ================= HIGHLIGHTS ================= -->
 
 <h5 class="text-primary mb-3">Highlights</h5>
@@ -346,5 +392,33 @@ document.addEventListener("click", function(e){
     e.target.closest('.input-group, .row, .border')?.remove();
   }
 });
+
+</script>
+
+<script>
+
+function addFeature(wrapperId, fieldName) {
+
+  const div = document.createElement('div');
+
+  div.className = 'input-group mb-2 feature-row';
+
+  div.innerHTML = `
+    <input
+      type="text"
+      name="${fieldName}"
+      class="form-control">
+
+    <button
+      type="button"
+      class="btn btn-danger remove-btn">
+      Remove
+    </button>
+  `;
+
+  document
+    .getElementById(wrapperId)
+    .appendChild(div);
+}
 
 </script>

@@ -1,0 +1,111 @@
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="mb-0">Edit CSR Record</h3>
+        <a href="/dashboard" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+    </div>
+
+    <% if (typeof message !== 'undefined') { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+
+    <form action="/CSR/edit?_method=PUT" method="POST" enctype="multipart/form-data">
+        
+        <!-- Main Images -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 text-primary"><i class="bi bi-images"></i> Main Images</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-4 border-end">
+                        <label class="form-label fw-bold text-secondary">Hero Section</label>
+                        <% if (csr && csr.heroImage) { %>
+                            <div class="mb-2">
+                                <img src="<%= csr.heroImage %>" alt="Hero Image" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        <% } %>
+                        <input type="file" name="heroImage" class="form-control mb-2" accept="image/*">
+                        <input type="text" name="heroTitle" class="form-control mb-2" placeholder="Hero Title" value="<%= csr ? csr.heroTitle : '' %>">
+                        <textarea name="heroDescription" rows="3" class="form-control" placeholder="Hero Description"><%= csr ? csr.heroDescription : '' %></textarea>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label fw-bold text-secondary">Side Section</label>
+                        <% if (csr && csr.sideImage) { %>
+                            <div class="mb-2">
+                                <img src="<%= csr.sideImage %>" alt="Side Image" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        <% } %>
+                        <input type="file" name="sideImage" class="form-control mb-2" accept="image/*">
+                        <input type="text" name="sideTitle" class="form-control mb-2" placeholder="Side Title" value="<%= csr ? csr.sideTitle : '' %>">
+                        <textarea name="sideDescription" rows="3" class="form-control" placeholder="Side Description"><%= csr ? csr.sideDescription : '' %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Images -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 text-primary"><i class="bi bi-columns-gap"></i> Gallery Images</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-4 border-end border-bottom pb-4">
+                        <label class="form-label fw-bold text-secondary">Gallery Section 1</label>
+                        <% if (csr && csr.galleryImage1) { %>
+                            <div class="mb-2">
+                                <img src="<%= csr.galleryImage1 %>" alt="Gallery 1" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        <% } %>
+                        <input type="file" name="galleryImage1" class="form-control mb-2" accept="image/*">
+                        <input type="text" name="galleryTitle1" class="form-control mb-2" placeholder="Title 1" value="<%= csr ? csr.galleryTitle1 : '' %>">
+                        <textarea name="galleryDescription1" rows="3" class="form-control" placeholder="Description 1"><%= csr ? csr.galleryDescription1 : '' %></textarea>
+                    </div>
+                    <div class="col-md-6 mb-4 border-bottom pb-4">
+                        <label class="form-label fw-bold text-secondary">Gallery Section 2</label>
+                        <% if (csr && csr.galleryImage2) { %>
+                            <div class="mb-2">
+                                <img src="<%= csr.galleryImage2 %>" alt="Gallery 2" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        <% } %>
+                        <input type="file" name="galleryImage2" class="form-control mb-2" accept="image/*">
+                        <input type="text" name="galleryTitle2" class="form-control mb-2" placeholder="Title 2" value="<%= csr ? csr.galleryTitle2 : '' %>">
+                        <textarea name="galleryDescription2" rows="3" class="form-control" placeholder="Description 2"><%= csr ? csr.galleryDescription2 : '' %></textarea>
+                    </div>
+                    <div class="col-md-6 mb-4 border-end pt-2">
+                        <label class="form-label fw-bold text-secondary">Gallery Section 3</label>
+                        <% if (csr && csr.galleryImage3) { %>
+                            <div class="mb-2">
+                                <img src="<%= csr.galleryImage3 %>" alt="Gallery 3" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        <% } %>
+                        <input type="file" name="galleryImage3" class="form-control mb-2" accept="image/*">
+                        <input type="text" name="galleryTitle3" class="form-control mb-2" placeholder="Title 3" value="<%= csr ? csr.galleryTitle3 : '' %>">
+                        <textarea name="galleryDescription3" rows="3" class="form-control" placeholder="Description 3"><%= csr ? csr.galleryDescription3 : '' %></textarea>
+                    </div>
+                    <div class="col-md-6 mb-4 pt-2">
+                        <label class="form-label fw-bold text-secondary">Gallery Section 4</label>
+                        <% if (csr && csr.galleryImage4) { %>
+                            <div class="mb-2">
+                                <img src="<%= csr.galleryImage4 %>" alt="Gallery 4" class="img-thumbnail" style="max-height: 100px;">
+                            </div>
+                        <% } %>
+                        <input type="file" name="galleryImage4" class="form-control mb-2" accept="image/*">
+                        <input type="text" name="galleryTitle4" class="form-control mb-2" placeholder="Title 4" value="<%= csr ? csr.galleryTitle4 : '' %>">
+                        <textarea name="galleryDescription4" rows="3" class="form-control" placeholder="Description 4"><%= csr ? csr.galleryDescription4 : '' %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+            <button type="submit" class="btn btn-warning px-5 py-2 fw-bold text-dark">
+                <i class="bi bi-pencil-square"></i> Update CSR
+            </button>
+        </div>
+
+    </form>
+</div>

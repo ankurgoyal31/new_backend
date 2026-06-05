@@ -1,7 +1,7 @@
 /* =========================================
    PROJECT MASTER CONFIG
 ========================================= */
-
+ 
 const categories = [
   "RESIDENTIAL",
   "COMMERCIAL",

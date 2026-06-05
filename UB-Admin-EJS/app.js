@@ -104,13 +104,14 @@ app.use('/', require('./routes/dashboardRoutes'));
 app.use('/blogs', require('./routes/blogRoutes'));
 app.use('/projects', require('./routes/projectRoutes'));
 app.use('/contacts', require('./routes/contactRoutes'));
-
+app.use('/CSR', require('./routes/csrRoutes'));
 // ===============================
 // REST API Routes
 // ===============================
 app.use('/api/blogs', require('./routes/api/blogApiRoutes'));
 app.use('/api/projects', require('./routes/api/projectApiRoutes'));
 app.use('/api/contacts', require('./routes/api/contactApiRoutes'));
+app.use('/api/CSR', require('./routes/api/csrApiRoutes'));
 
 // ===============================
 // 404 Handler

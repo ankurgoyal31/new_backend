@@ -116,10 +116,10 @@ exports.create = async (req, res) => {
     /* ================= MULTI IMAGE SECTIONS ================= */
     const mapFiles = (field) =>
       req.files[field] ? req.files[field].map(f => f.location) : [];
-
+   
     /* ================= CUSTOM SECTIONS ================= */
     let customSections = [];
-
+ 
     if (req.body.customSectionTitle) {
       const titles = Array.isArray(req.body.customSectionTitle)
         ? req.body.customSectionTitle
@@ -154,10 +154,13 @@ exports.create = async (req, res) => {
       location: req.body.location,
       priceRange: req.body.priceRange,
       status: req.body.status,
+      bedrooms: req.body.bedrooms,
+      area: req.body.area,
+      reraNumber: req.body.reraNumber,
       projectVideo: getFile('projectVideo'),
       heroImage1: getFile('heroImage1'),
       heroImage2: getFile('heroImage2'),
-      heroImage3: getFile('heroImage3'),
+      heroImage3: getFile('heroImage3'), 
       logoImage: getFile('logoImage'),
       brochureFile: getFile('brochureFile'),
 
@@ -165,7 +168,7 @@ exports.create = async (req, res) => {
       aboutImage: getFile('aboutImage'),
 
       /* ================= NEW LOCATION FIELD ================= */
-      locationMapLink: req.body.location,
+      locationMapLink: req.body.locationMapLink,
 
       /* ================= MULTI IMAGES ================= */
       masterPlanImages: mapFiles('masterPlanImages'),
@@ -193,8 +196,8 @@ exports.create = async (req, res) => {
 
 /* ================= UPDATE ================= */
 exports.update = async (req, res) => {
-  try {
-
+  try {  
+    console.log("Update Data:", req.body);
     const project = await Project.findById(req.params.id);
     if (!project) return res.redirect('/projects');
 
@@ -208,10 +211,13 @@ exports.update = async (req, res) => {
       category: req.body.category,
       location: req.body.location,
       priceRange: req.body.priceRange,
-      status: req.body.status
+      status: req.body.status,
+      bedrooms: req.body.bedrooms,
+      area: req.body.area,
+      reraNumber: req.body.reraNumber,
     };
 
-    /* ================= FILE UPDATE ================= */
+    /*================= FILE UPDATE ================= */
     const updateFile = async (field) => {
       if (req.files[field]) {
         await deleteFromS3(project[field]);
@@ -219,28 +225,125 @@ exports.update = async (req, res) => {
       }
     };
 
-    const singleFiles = [
-      'heroImage1','heroImage2','heroImage3','logoImage','brochureFile','aboutImage','projectVideo'
-    ];
+    const singleFiles = ['heroImage1','heroImage2','heroImage3','logoImage','brochureFile','aboutImage','projectVideo'];
 
     for (let field of singleFiles) {
       await updateFile(field);
     }
 
-    /* ================= MULTI IMAGE UPDATE ================= */
-    const multiFields = [
-      'masterPlanImages',
-      'floorPlanImages',
-      'exclusiveClubImages',
-      'facilitiesNearbyImages',
-      'constructionUpdateImages'
-    ];
+/*================= MULTI IMAGE UPDATE ================= */
 
-    for (let field of multiFields) {
-      if (req.files[field]) {
-        updateData[field] = req.files[field].map(f => f.location);
-      }
+const multiFields = [
+  'masterPlanImages',
+  'floorPlanImages',
+  'exclusiveClubImages',
+  'facilitiesNearbyImages',
+  'constructionUpdateImages'
+]; 
+
+/* CLONE OLD DATA */
+multiFields.forEach(field => {
+  updateData[field] = [...(project[field] || [])];
+});
+
+/* ================= ADD NEW IMAGES ================= */
+
+for (let field of multiFields) {
+
+  if (
+    req.files[field] && 
+    req.files[field].length > 0
+  ) {
+
+    const newImages = req.files[field].map(
+      f => f.location
+    );
+
+    updateData[field].push(...newImages);
+  }
+}
+/* ================= SPECIFIC IMAGE REPLACE ================= */
+
+if (
+  req.files.replaceImages &&
+  req.files.replaceImages.length > 0
+) {
+
+  const indexes = Array.isArray(req.body.replaceIndexes)
+    ? req.body.replaceIndexes
+    : [req.body.replaceIndexes];
+
+  req.files.replaceImages.forEach((file, i) => {
+
+    const value = indexes[i];
+
+    if (!value) return;
+
+    const [field, index] = value.split('-');
+
+    if (
+      updateData[field] &&
+      updateData[field][index]
+    ) {
+
+      updateData[field][index] = file.location;
     }
+  });
+}
+
+ //delete
+
+ /* ================= SPECIFIC IMAGE REPLACE ================= */
+
+if (
+  req.files.replaceImages &&
+  req.files.replaceImages.length > 0
+) {
+
+  const indexes = Array.isArray(req.body.replaceIndexes)
+    ? req.body.replaceIndexes
+    : [req.body.replaceIndexes];
+
+  req.files.replaceImages.forEach((file, i) => {
+
+    const value = indexes[i];
+
+    if (!value) return;
+
+    const [field, index] = value.split('-');
+
+    if (
+      updateData[field] &&
+      updateData[field][index]
+    ) {
+
+      updateData[field][index] = file.location;
+    }
+  });
+}
+
+
+/* ================= DELETE SINGLE IMAGE ================= */
+
+
+if (req.body.deleteImage) {
+
+  const [field, index] =
+    req.body.deleteImage.split('-');
+
+  if (
+    updateData[field] &&
+    updateData[field][index]
+  ) {
+
+    await deleteFromS3(
+      updateData[field][index]
+    );
+
+    updateData[field].splice(index, 1);
+  }
+}
+
 
     /* ================= FEATURES ================= */
     const makeArray = (field) => {
@@ -379,31 +482,10 @@ exports.delete = async (req, res) => {
         }
       }
     }
-
     await Project.findByIdAndDelete(req.params.id);
-
     res.redirect('/projects');
-
   } catch (err) {
     console.error(err);
     res.status(500).send("Error Deleting Project");
   }
 };
-
-// app.post("/upload-video", upload.single("video"), async (req, res) => {
-//   try {
-//     const videoUrl = `http://127.0.0.1:5000/uploads/videos/${req.file.filename}`;
-
-//     const collection = await connectToDatabase();
-
-//     await collection.insertOne({
-//       title: req.body.title,
-//       video: videoUrl
-//     });
-
-//     res.json({ success: true, video: videoUrl });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ success: false });
-//   }
-// });

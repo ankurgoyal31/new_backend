@@ -10,14 +10,14 @@ exports.list = async (req, res) => {
 };
 
 exports.view = async (req, res) => {
-  try {
+  try { 
     const contact = await Contact.findById(req.params.id);
     if (!contact) return res.redirect('/contacts');
     res.render('contacts/view', { contact });
   } catch (err) {
     res.redirect('/contacts');
   }
-};
+}; 
 
 exports.delete = async (req, res) => {
   try {

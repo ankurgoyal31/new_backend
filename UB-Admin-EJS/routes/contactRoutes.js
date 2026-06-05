@@ -6,5 +6,5 @@ const { isAuthenticated } = require('../middleware/authMiddleware');
 router.get('/', isAuthenticated, contactController.list);
 router.get('/view/:id', isAuthenticated, contactController.view);
 router.delete('/delete/:id', isAuthenticated, contactController.delete);
-
-module.exports = router;
+  
+module.exports = router;  
