@@ -5,7 +5,62 @@
     </div>
     <div class="card-body">
 
-      <form action="/blogs/add" method="POST">
+      <form action="/blogs/add" method="POST" enctype="multipart/form-data">
+
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select name="category" class="form-select" required>
+            <option value="All">All</option>
+            <option value="Architecture">Architecture</option>
+            <option value="Interior Design">Interior Design</option>
+            <option value="Lifestyle">Lifestyle</option>
+            <option value="Township Planning">Township Planning</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Hero Image</label>
+          <input type="file" name="heroImage" class="form-control" accept="image/*" required>
+        </div>
+
+
+         <div class="mb-3">
+          <label class="form-label">Banner Content</label>
+          <textarea name="Banner_content" rows="6" class="form-control" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Main Blog Image</label>
+          <input type="file" name="main_blog_image" class="form-control" accept="image/*" required>
+        </div>
+        
+        <hr>
+
+        <div class="mb-3">
+            <label>Blog Detail Image 1</label>
+            <input type="file" name="project_detail_image_1" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label>Blog Detail Image 2</label>
+            <input type="file" name="project_detail_image_2" class="form-control" accept="image/*">
+        </div>
+
+         <div class="mb-3">
+          <label class="form-label">Upload Images</label>
+          <div id="imageInputsWrapper">
+            <div class="input-group mb-2">
+              <input type="file" name="images" class="form-control" multiple accept="image/*">
+              <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Remove</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="addImageInput()">
+            + Add More Images
+          </button>
+          <small class="text-muted d-block mt-1">You can select multiple images at once in a single input, or add more inputs.</small>
+        </div>
+
+        <hr>
 
         <div class="mb-3">
           <label class="form-label">Title</label>
@@ -29,9 +84,21 @@
         <a href="/blogs" class="btn btn-secondary">
           Cancel
         </a>
-
       </form>
 
     </div>
   </div>
 </div>
+
+<script>
+function addImageInput() {
+  const wrapper = document.getElementById('imageInputsWrapper');
+  const div = document.createElement('div');
+  div.className = 'input-group mb-2';
+  div.innerHTML = `
+    <input type="file" name="images" class="form-control" multiple accept="image/*">
+    <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Remove</button>
+  `;
+  wrapper.appendChild(div);
+}
+</script>
