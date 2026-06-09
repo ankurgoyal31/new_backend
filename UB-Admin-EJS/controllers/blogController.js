@@ -9,7 +9,7 @@
 
 //     res.render('blogs/list', {
 //       layout: 'layout',
-//       title: 'All Blogs',
+//       title: 'All Blogs', 
 //       admin: req.session.admin,
 //       blogs
 //     });
