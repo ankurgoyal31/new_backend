@@ -5,8 +5,107 @@
     </div>
     <div class="card-body">
 
-      <form action="/blogs/edit/<%= blog._id %>?_method=PUT" method="POST">
+      <form action="/blogs/edit/<%= blog._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select name="category" class="form-select" required>
+            <option value="All" <%= blog.category === 'All' ? 'selected' : '' %>>All</option>
+            <option value="Architecture" <%= blog.category === 'Architecture' ? 'selected' : '' %>>Architecture</option>
+            <option value="Interior Design" <%= blog.category === 'Interior Design' ? 'selected' : '' %>>Interior Design</option>
+            <option value="Lifestyle" <%= blog.category === 'Lifestyle' ? 'selected' : '' %>>Lifestyle</option>
+            <option value="Township Planning" <%= blog.category === 'Township Planning' ? 'selected' : '' %>>Township Planning</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Banner Image</label>
+          <% if (blog.heroImage) { %>
+            <div class="mb-2">
+              <img src="<%= blog.heroImage %>" alt="Banner Image" style="width: 200px; height: 100px; object-fit: cover;" class="rounded border">
+            </div>
+          <% } %>
+          <input type="file" name="heroImage" class="form-control" accept="image/*">
+          <small class="text-muted">Upload a new file to replace the current banner image.</small>
+        </div>
+
+         <div class="mb-3">
+          <label class="form-label">Banner Content</label>
+          <textarea name="Banner_content" 
+                    rows="6" 
+                    class="form-control" 
+                    required><%= blog.Banner_content %></textarea>
+        </div>
+
+        <div class="mb-3"> 
+          <label class="form-label">Main Blog Image</label>
+          <% if (blog.main_blog_image) { %>
+            <div class="mb-2">
+              <img src="<%= blog.main_blog_image %>" alt="Main Blog Image" style="width: 200px; height: 100px; object-fit: cover;" class="rounded border">
+            </div>
+          <% } %>
+          <input type="file" name="main_blog_image" class="form-control" accept="image/*">
+          <small class="text-muted">Upload a new file to replace the current main blog image.</small>
+        </div>
+
+        
+        
+        <hr>
+
+        <div class="mb-3">
+          <label>Blog Detail Image 1</label>
+          <% if (blog.project_detail_image_1) { %>
+            <div class="mb-2">
+              <img src="<%= blog.project_detail_image_1 %>" alt="Detail Image 1" style="height: 100px; object-fit: cover;" class="rounded border">
+            </div>
+          <% } %>
+          <input type="file" name="project_detail_image_1" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+          <label>Blog Detail Image 2</label>
+          <% if (blog.project_detail_image_2) { %>
+            <div class="mb-2">
+              <img src="<%= blog.project_detail_image_2 %>" alt="Detail Image 2" style="height: 100px; object-fit: cover;" class="rounded border">
+            </div>
+          <% } %>
+          <input type="file" name="project_detail_image_2" class="form-control" accept="image/*">
+        </div>
+
+
+         <div class="mb-3">
+          <label class="form-label">Current Images</label>
+          <div class="d-flex flex-wrap gap-2 mb-2" id="currentImages">
+            <% if (blog.images && blog.images.length > 0) { %>
+              <% blog.images.forEach((img, index) => { %>
+                <div class="position-relative image-container">
+                  <input type="hidden" name="existingImages[]" value="<%= img %>">
+                  <img src="<%= img %>" alt="Blog Image" style="width: 100px; height: 100px; object-fit: cover;" class="rounded border">
+                  <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="this.parentElement.remove()">
+                    &times;
+                  </button>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <p class="text-muted small">No images uploaded yet.</p>
+            <% } %>
+          </div>
+          <label class="form-label mt-3">Upload New Images</label>
+          <div id="imageInputsWrapper">
+            <div class="input-group mb-2">
+              <input type="file" name="images" class="form-control" multiple accept="image/*">
+              <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Remove</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="addImageInput()">
+            + Add More Images
+          </button>
+          <small class="text-muted d-block mt-1">You can select multiple new images at once.</small>
+        </div>
+
+        
+        <hr>
+        
         <div class="mb-3">
           <label class="form-label">Title</label>
           <input type="text" 
@@ -21,11 +120,11 @@
           <input type="text" 
                  name="author" 
                  class="form-control" 
-                 value="<%= blog.author %>" 
+              value="<%= blog.author %>" 
                  required>
         </div>
-
-        <div class="mb-3">
+    
+       <div class="mb-3">
           <label class="form-label">Content</label>
           <textarea name="content" 
                     rows="6" 
@@ -40,9 +139,21 @@
         <a href="/blogs" class="btn btn-secondary">
           Cancel
         </a>
-
+        
       </form>
-
     </div>
   </div>
 </div>
+
+<script>
+function addImageInput() {
+  const wrapper = document.getElementById('imageInputsWrapper');
+  const div = document.createElement('div');
+  div.className = 'input-group mb-2';
+  div.innerHTML = `
+    <input type="file" name="images" class="form-control" multiple accept="image/*">
+    <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Remove</button>
+  `;
+  wrapper.appendChild(div);
+}
+</script>
