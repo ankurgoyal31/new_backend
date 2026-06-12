@@ -215,6 +215,7 @@ exports.update = async (req, res) => {
       bedrooms: req.body.bedrooms,
       area: req.body.area,
       reraNumber: req.body.reraNumber,
+      locationMapLink: req.body.locationMapLink,
     };
 
     /*================= FILE UPDATE ================= */
