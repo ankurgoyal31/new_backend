@@ -17,6 +17,7 @@ const locations = [
 ];
 
 const priceRanges = [
+   "N/A",
   "Budget",
   "10LAC-20LAC",
   "20LAC-50LAC",
